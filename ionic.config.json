@@ -1,0 +1,7 @@
+{
+  "name": "carre-bertrand",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
