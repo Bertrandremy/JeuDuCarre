@@ -16,8 +16,8 @@ export class Square {
          id: string,
          top: number,
          right: number,
-         left: number,
          down: number,
+         left: number,
          line: number,
 
     ) {

@@ -10,10 +10,13 @@ $buttonHeigth: $sizeSquare*0.75;
     min-width: $sizeSquare*4.2;
     width: $sizeSquare*3.8;
     height: $sizeSquare*3.8;
-  
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
+
+    .gridgame {
+      margin-top: -10px;
+    }
     .square {
       display: inline-block;
       width: $sizeSquare;
