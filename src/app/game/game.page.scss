@@ -9,7 +9,9 @@ $buttonHeigth: $sizeSquare*0.75;
 #gameGrid {
     min-width: $sizeSquare*4.2;
     width: $sizeSquare*3.8;
+    height: $sizeSquare*3.8;
   
+    margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
     .square {
@@ -26,7 +28,7 @@ $buttonHeigth: $sizeSquare*0.75;
         border: solid 1px rgb(214, 171, 121);
   
       }
-      .btn-up {
+      .btn-top {
         width: $sizeSquare*0.8;
         height: $buttonWidth;
         margin-left: $sizeSquare/8;

@@ -10,88 +10,92 @@
 
     <div id="gameGrid">
 
+    <div *ngFor="let square of squares | filterCol:2">{{ square.line }}
+      <!-- <span *ngIf= "square.line == 1">{{ square.line }}</span> -->
+    </div>
+    <!-- <div *ngFor="let square of squares"><span *ngIf= "square.line == 2">{{ square.line }}</span></div> -->
 
       <br />
       <br />
       <div class="gridgame" style="display: inline-flex;">
+        <div class="square" >
+          <div class="btn-top" (click)=clickCase(1)></div>
+          <div class="btn-left" (click)=clickCase(1)></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
+        </div>
+        <div class="square">
+          <div class="btn-top" (click)=clickCase(1)></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
+        </div>
+        <div class="square">
+          <div class="btn-top" (click)=clickCase(1)></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
+        </div>
+        <div class="square">
+          <div class="btn-top" (click)=clickCase(1)></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
+        </div>
+      </div>
 
+      <div class="gridgame" style="margin-top: -10px;">
         <div class="square">
-          <div class="btn-up" (click)=clickCase()></div>
-          <div class="btn-left"></div>
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-left" (click)=clickCase(1)></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-up"></div>
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-up"></div>
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-up"></div>
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
       </div>
       <div class="gridgame" style="margin-top: -10px;">
         <div class="square">
-          <div class="btn-left"></div>
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-left" (click)=clickCase(1)></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
-        </div>
-      </div>
-      <div class="gridgame" style="margin-top: -10px;">
-        <div class="square">
-          <div class="btn-left"></div>
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
-        </div>
-        <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
-        </div>
-        <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
-        </div>
-        <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
       </div>
       <div class="gridgame" style="margin-top: -10px;">
         <div class="square">
-          <div class="btn-left"></div>
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-left" (click)=clickCase(1)></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
         <div class="square">
-          <div class="btn-right"></div>
-          <div class="btn-down"></div>
+          <div class="btn-right" (click)=clickCase(1)></div>
+          <div class="btn-down" (click)=clickCase(1)></div>
         </div>
       </div>
     </div>

@@ -8,6 +8,9 @@ import { GamePageRoutingModule } from './game-routing.module';
 
 import { GamePage } from './game.page';
 
+import { FilterColPipe } from '../pipes/filter-col.pipe';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +18,6 @@ import { GamePage } from './game.page';
     IonicModule,
     GamePageRoutingModule
   ],
-  declarations: [GamePage]
+  declarations: [GamePage, FilterColPipe]
 })
 export class GamePageModule {}
