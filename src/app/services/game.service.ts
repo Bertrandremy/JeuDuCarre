@@ -12,7 +12,7 @@ export class GameService {
    */
   public loadSquare(nPerSide: number): Array<Square> {
     let squares: Array<Square> = new Array;
-    squares.push(new Square("A", 2, 3, 1, 4, 1));
+    squares.push(new Square("A", 2, 3, 4, 1, 1));
     squares.push(new Square("B", 5, 6, 7, 3, 1));
     squares.push(new Square("C", 8, 9, 10, 6, 1));
     squares.push(new Square("D", 11, 12, 13, 9, 1));
@@ -29,7 +29,8 @@ export class GameService {
     squares.push(new Square("O", 29, 37, 38, 35, 4));
     squares.push(new Square("P", 31, 39, 40, 37, 4));
     return squares;
-
-
   }
+
+
+
 }

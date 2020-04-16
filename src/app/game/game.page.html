@@ -12,44 +12,62 @@
 
       <br />
       <br />
-      <div class="gridgame" style="display: inline-flex;">
+      <div class="gridgame">
         <div class="square" *ngFor="let square of squares | filterCol:1; first as isFirst">
-          <div class="btn-top" id="{{square.top}}" (click)=clickCase(square.top)></div>
-          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left" (click)=clickCase(square.left)></div>
-          <div class="btn-right" id="{{square.right}}" (click)=clickCase(square.right)></div>
-          <div class="btn-down" id="{{square.down}}" (click)=clickCase(square.down)></div>
+          <div class="btn-top case-unchecked" id="{{square.top}}" (click)=clickCase(square.top)
+            [ngClass]="{'case-checked':square.topChecked}"></div>
+          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left case-unchecked" (click)=clickCase(square.left)
+            [ngClass]="{'case-checked':square.leftChecked}"></div>
+            <span *ngIf="square.ctChecked == 4" class="content-square cross">X</span>
+          <div class="btn-right case-unchecked" id="{{square.right}}" (click)=clickCase(square.right)
+            [ngClass]="{'case-checked':square.rightChecked}"></div>
+          <div class="btn-down case-unchecked" id="{{square.down}}" (click)=clickCase(square.down)
+            [ngClass]="{'case-checked':square.downChecked}"></div>
         </div>
       </div>
 
-      <div class="gridgame" style="display: inline-flex;">
+      <div class="gridgame">
         <div class="square" *ngFor="let square of squares | filterCol:2; first as isFirst">
-          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left" (click)=clickCase(square.left)></div>
-          <div class="btn-right" id="{{square.right}}" (click)=clickCase(square.right)></div>
-          <div class="btn-down" id="{{square.down}}" (click)=clickCase(square.down)></div>
+          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left case-unchecked" (click)=clickCase(square.left)
+            [ngClass]="{'case-checked':square.leftChecked}"></div>
+            <span *ngIf="square.ctChecked == 4" class="content-square circle">O</span>
+          <div class="btn-right case-unchecked" id="{{square.right}}" (click)=clickCase(square.right)
+            [ngClass]="{'case-checked':square.rightChecked}"></div>
+          <div class="btn-down case-unchecked" id="{{square.down}}" (click)=clickCase(square.down)
+            [ngClass]="{'case-checked':square.downChecked}"></div>
         </div>
       </div>
 
-      <div class="gridgame" style="display: inline-flex;">
+      <div class="gridgame">
         <div class="square" *ngFor="let square of squares | filterCol:3; first as isFirst">
-          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left" (click)=clickCase(square.left)></div>
-          <div class="btn-right" id="{{square.right}}" (click)=clickCase(square.right)></div>
-          <div class="btn-down" id="{{square.down}}" (click)=clickCase(square.down)></div>
+          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left case-unchecked" (click)=clickCase(square.left)
+            [ngClass]="{'case-checked':square.leftChecked}"></div>
+          <div class="btn-right case-unchecked" id="{{square.right}}" (click)=clickCase(square.right)
+            [ngClass]="{'case-checked':square.rightChecked}"></div>
+          <div class="btn-down case-unchecked" id="{{square.down}}" (click)=clickCase(square.down)
+            [ngClass]="{'case-checked':square.downChecked}"></div>
         </div>
       </div>
 
-      <div class="gridgame" style="display: inline-flex;">
+      <div class="gridgame">
         <div class="square" *ngFor="let square of squares | filterCol:4; first as isFirst">
-          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left" (click)=clickCase(square.left)></div>
-          <div class="btn-right" id="{{square.right}}" (click)=clickCase(square.right)></div>
-          <div class="btn-down" id="{{square.down}}" (click)=clickCase(square.down)></div>
+          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left case-unchecked" (click)=clickCase(square.left)
+            [ngClass]="{'case-checked':square.leftChecked}"></div>
+          <div class="btn-right case-unchecked" id="{{square.right}}" (click)=clickCase(square.right)
+            [ngClass]="{'case-checked':square.rightChecked}"></div>
+          <div class="btn-down case-unchecked" id="{{square.down}}" (click)=clickCase(square.down)
+            [ngClass]="{'case-checked':square.downChecked}"></div>
         </div>
       </div>
 
-      <div class="gridgame" style="display: inline-flex;">
+      <div class="gridgame">
         <div class="square" *ngFor="let square of squares | filterCol:5; first as isFirst">
-          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left" (click)=clickCase(square.left)></div>
-          <div class="btn-right" id="{{square.right}}" (click)=clickCase(square.right)></div>
-          <div class="btn-down" id="{{square.down}}" (click)=clickCase(square.down)></div>
+          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left case-unchecked" (click)=clickCase(square.left)
+            [ngClass]="{'case-checked':square.leftChecked}"></div>
+          <div class="btn-right case-unchecked" id="{{square.right}}" (click)=clickCase(square.right)
+            [ngClass]="{'case-checked':square.rightChecked}"></div>
+          <div class="btn-down case-unchecked" id="{{square.down}}" (click)=clickCase(square.down)
+            [ngClass]="{'case-checked':square.downChecked}"></div>
         </div>
       </div>
 

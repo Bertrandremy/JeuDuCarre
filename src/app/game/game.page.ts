@@ -24,12 +24,13 @@ export class GamePage implements OnInit {
     this.squares = this.gameService.loadSquare(4);
     console.log("carrés chargés:");
     console.log(this.squares);
-
-
   }
 
   clickCase(idCase: number) {
     console.log("Case cliquée ", idCase);
+    this.squares.forEach(square => {
+      square.checkCase(idCase);
+    });
   }
 
 }

@@ -42,21 +42,27 @@ export class Square {
             case this.top:
                 this.topChecked = true;
                 this.ctChecked++;
-                return true;
+                break;
             case this.right:
                 this.rightChecked = true;
                 this.ctChecked++;
-                return true;
+                break;
             case this.left:
                 this.leftChecked = true;
                 this.ctChecked++;
-                return true;
+                break;
             case this.down:
                 this.downChecked = true;
                 this.ctChecked++;
-                return true;
+                break;
             default:
                 return false;
+        }
+        console.log("carré", this.id, " ", this.ctChecked, " côtés cochés");
+
+        
+        if (this.ctChecked == 4) {
+            console.log("carré", this.id, "fini");
         }
     }
 
