@@ -11,6 +11,7 @@ export class Square {
     public leftChecked: boolean;
     public downChecked: boolean;
     public ctChecked: number;
+    public winningPlayer: number;
 
     constructor(
          id: string,
@@ -32,6 +33,7 @@ export class Square {
         this.leftChecked = false;
         this.downChecked = false;
         this.ctChecked = 0;
+        this.winningPlayer = null;
     }
 
     /**

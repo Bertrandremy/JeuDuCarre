@@ -6,77 +6,104 @@ $buttonHeigth: $sizeSquare * 0.75;
 
 ////////////////////// GAME ////////////////////////
 
-#gameGrid {
-  min-width: $sizeSquare * 4.2;
-  width: $sizeSquare * 3.8;
-  height: $sizeSquare * 3.8;
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .gridgame {
-    margin-top: -10px;
-    display: inline-flex;
-    .content-square {
-      position: absolute;
-      font-size: $sizeSquare/2;
-      font-family: cursive;
+#game {
+  .player-banner {
+    display: flex;
+    padding-top: 20px;
+    font-family: cursive;
+    font-size: 20px;
+    text-align: center;
+    .player-one {
+      margin-left: 15%;
+      color: #40abe9;
+      margin-right: auto;
+      padding: 10px;
+      border: 4px solid transparent;
     }
-    .cross {
-      color: #e4ab5b;
-      margin-left: $sizeSquare/3;
-      margin-top: $sizeSquare/6.8;
+    .player-two {
+      padding: 10px;
+      margin-right: 15%;
+      color: indianred;
+      border: 4px solid transparent;
     }
-    .circle {
-      color: rgb(64, 171, 233);
-      margin-left: $sizeSquare/3.3;
-      margin-top: $sizeSquare/6.8;
+    .activ-player {
+      border: 4px solid;
+      border-style: dashed;
+      transition: border 1s, border-style 1s, transform 1s;
     }
   }
-  .case-unchecked {
-    border: solid 1px rgb(156, 165, 177);
-    transition: background-color 1s, border 1s, transform 1s;
-    cursor: pointer;
-  }
+  #gameGrid {
+    min-width: $sizeSquare * 4.2;
+    width: $sizeSquare * 3.8;
+    height: $sizeSquare * 3.8;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
 
-  .square {
-    display: inline-block;
-    width: $sizeSquare;
-    height: $sizeSquare;
-    .case-checked {
-      background-color: #e4ab5b;
-      border: solid 1px rgb(214, 171, 121);
-      pointer-events: none;
+    .gridgame {
+      margin-top: -10px;
+      display: inline-flex;
+      .content-square {
+        position: absolute;
+        font-size: $sizeSquare/2;
+        font-family: cursive;
+      }
+      .cross {
+        color: indianred;
+        margin-left: $sizeSquare/3;
+        margin-top: $sizeSquare/6.8;
+      }
+      .circle {
+        color: rgb(64, 171, 233);
+        margin-left: $sizeSquare/3.3;
+        margin-top: $sizeSquare/6.8;
+      }
     }
-    div:hover {
-      background-color: #e4ab5b;
-      border: solid 1px rgb(214, 171, 121);
+    .case-unchecked {
+      border: solid 1px rgb(156, 165, 177);
+      transition: background-color 1s, border 1s, transform 1s;
+      cursor: pointer;
     }
-    .btn-top {
-      width: $sizeSquare * 0.8;
-      height: $buttonWidth;
-      margin-left: $sizeSquare/8;
-      position: absolute;
-    }
-    .btn-left {
-      width: $buttonWidth;
-      height: $buttonHeigth;
-      margin-top: $sizeSquare/8;
-      position: absolute;
-    }
-    .btn-right {
-      margin-left: $sizeSquare/1.05;
-      width: $buttonWidth;
-      height: $buttonHeigth;
-      margin-top: $sizeSquare/8;
-      position: absolute;
-    }
-    .btn-down {
-      width: $sizeSquare * 0.8;
-      height: $buttonWidth;
-      margin-top: $sizeSquare/1.1;
-      margin-left: $sizeSquare/9.6;
-      position: absolute;
+
+    .square {
+      display: inline-block;
+      width: $sizeSquare;
+      height: $sizeSquare;
+      .case-checked {
+        background-color: #e4ab5b;
+        border: solid 1px rgb(214, 171, 121);
+        pointer-events: none;
+      }
+      div:hover {
+        background-color: #e4ab5b;
+        border: solid 1px rgb(214, 171, 121);
+      }
+      .btn-top {
+        width: $sizeSquare * 0.8;
+        height: $buttonWidth;
+        margin-left: $sizeSquare/8;
+        position: absolute;
+      }
+      .btn-left {
+        width: $buttonWidth;
+        height: $buttonHeigth;
+        margin-top: $sizeSquare/8;
+        position: absolute;
+      }
+      .btn-right {
+        margin-left: $sizeSquare/1.05;
+        width: $buttonWidth;
+        height: $buttonHeigth;
+        margin-top: $sizeSquare/8;
+        position: absolute;
+      }
+      .btn-down {
+        width: $sizeSquare * 0.8;
+        height: $buttonWidth;
+        margin-top: $sizeSquare/1.1;
+        margin-left: $sizeSquare/9.6;
+        position: absolute;
+      }
     }
   }
 }

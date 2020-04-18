@@ -4,8 +4,35 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 50%;
+  top: 30%;
   transform: translateY(-50%);
+
+  .select-player {
+    display: flex;
+    padding-top: 20px;
+    font-family: cursive;
+    font-size: 20px;
+    text-align: center;
+    .player-one {
+      margin-left: 15%;
+      color: #40abe9;
+      margin-right: auto;
+      padding: 10px;
+      border: 4px solid transparent;
+    }
+    .player-two {
+      padding: 10px;
+      margin-right: 15%;
+      color: indianred;
+      border: 4px solid transparent;
+    }
+    // .activ-player {
+    //   border: 4px solid;
+    //   border-style: dashed;
+    //   transition: border 1s, border-style 1s, transform 1s;
+    // }
+  }
+
 }
 
 #container strong {
