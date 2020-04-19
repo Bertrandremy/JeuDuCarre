@@ -7,15 +7,17 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
-import { MatRadioModule } from "@angular/material";
+import { MatRadioModule, MatSelectModule, MatFormFieldModule, MatInputModule } from "@angular/material";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GameService } from "./services/game.service";
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, BrowserAnimationsModule, IonicModule.forRoot(), AppRoutingModule, MatRadioModule],
+  imports: [BrowserModule, BrowserAnimationsModule, IonicModule.forRoot(), AppRoutingModule, MatRadioModule, MatSelectModule, FormsModule, MatFormFieldModule, MatInputModule],
+  exports: [MatRadioModule, MatSelectModule, FormsModule, MatFormFieldModule, MatInputModule],
   providers: [
     StatusBar,
     SplashScreen,
@@ -24,4 +26,4 @@ import { GameService } from "./services/game.service";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

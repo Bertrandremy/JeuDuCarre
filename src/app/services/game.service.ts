@@ -28,7 +28,24 @@ export class GameService {
     squares.push(new Square("N", 27, 35, 36, 33, 4));
     squares.push(new Square("O", 29, 37, 38, 35, 4));
     squares.push(new Square("P", 31, 39, 40, 37, 4));
+    if (nPerSide == 5) {
+    }
     return squares;
+  }
+
+  public loadMoves(nPerSide: number): number[] {
+    let listPossibleMoves: number[];
+    switch (nPerSide) {
+      case 4:
+        listPossibleMoves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+        break;
+      case 5:
+        listPossibleMoves.push(41, 42, 43, 44, 45)
+        break;
+      default:
+        break;
+    }
+    return listPossibleMoves;
   }
 
 
