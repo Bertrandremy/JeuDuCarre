@@ -59,11 +59,15 @@ export class GamePage implements OnInit {
     if (testThreeSides != null) {
       this.clickCase(testThreeSides);
     } else {
-      if (this.checkAllTwoSides()) {
+      if (this.checkAllTwoSides() == false) {
         console.log("this.checkAllTwoSides", this.checkAllTwoSides());
-        
-      } 
-      this.playMidDifficulty();
+        console.log("random move");
+
+        this.randomMove();
+      } else {
+
+        this.playMidDifficulty();
+      }
     }
   }
 
@@ -86,18 +90,28 @@ export class GamePage implements OnInit {
     }
   }
 
-/**
- * checkAllTwoSides
- */
-public checkAllTwoSides(): boolean {
-  let test: boolean = false;
-  this.squares.forEach(square => {
-    if (square.ctChecked < 2) {
-      test = true;
-    }
-  });
-  return test;
-}
+  /**
+   * randomMove
+   */
+  public randomMove(): void {
+    let idNextMove = this.possibleMoves[Math.floor(Math.random() * this.possibleMoves.length)];
+    setTimeout(() => {
+      this.clickCase(idNextMove);
+    }, 1000);
+  }
+
+  /**
+   * checkAllTwoSides
+   */
+  public checkAllTwoSides(): boolean {
+    let test: boolean = false;
+    this.squares.forEach(square => {
+      if (square.ctChecked < 2) {
+        test = true;
+      }
+    });
+    return test;
+  }
 
   /**
    * checkThreeSides
