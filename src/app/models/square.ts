@@ -14,12 +14,12 @@ export class Square {
     public winningPlayer: number;
 
     constructor(
-         id: string,
-         top: number,
-         right: number,
-         down: number,
-         left: number,
-         line: number,
+        id: string,
+        top: number,
+        right: number,
+        down: number,
+        left: number,
+        line: number,
 
     ) {
         this.id = id;
@@ -34,6 +34,24 @@ export class Square {
         this.downChecked = false;
         this.ctChecked = 0;
         this.winningPlayer = null;
+    }
+
+    /**
+     * returnUncheck
+     */
+    public returnUncheck(): number {
+        switch (false) {
+            case this.topChecked:
+                return this.top
+            case this.rightChecked:
+                return this.right
+            case this.leftChecked:
+                return this.left
+            case this.downChecked:
+                return this.down
+            default:
+                return null;
+        }
     }
 
     /**
@@ -60,11 +78,9 @@ export class Square {
             default:
                 return false;
         }
-        console.log("carré", this.id, " ", this.ctChecked, " côtés cochés");
-
-        
+        // console.log("carré", this.id, " ", this.ctChecked, " côtés cochés");
         if (this.ctChecked == 4) {
-            console.log("carré", this.id, "fini");
+            // console.log("carré", this.id, "fini");
         }
     }
 

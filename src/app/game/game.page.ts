@@ -55,37 +55,64 @@ export class GamePage implements OnInit {
    * playTurn
    */
   public playTurn() {
+    let testThreeSides: number = this.checkThreeSides();
+    if (testThreeSides != null) {
+      this.clickCase(testThreeSides);
+    } else {
+      if (this.checkAllTwoSides()) {
+        console.log("this.checkAllTwoSides", this.checkAllTwoSides());
+        
+      } 
+      this.playMidDifficulty();
+    }
+  }
+
+  /**
+   * playMidleDifficulty
+   */
+  public playMidDifficulty() {
     let idNextMove = this.possibleMoves[Math.floor(Math.random() * this.possibleMoves.length)];
     console.log("L'IA pense à  ", idNextMove);
     console.log("Carrés qui contiennent cette case", this.findSquaresByCase(idNextMove));
-    let test: boolean;
-    let that = this;
-    var promise = new Promise(function (resolve, reject) {
-      that.findSquaresByCase(idNextMove).forEach(squareToTest => {
-        console.log("Carré testé ", squareToTest);
-        test = that.testTwoSides(idNextMove);
-        console.log("test dans promise est ", test);
-      });
-      resolve();
-    });
-    promise.then(function (value) {
-      console.log("promise", value);
-      console.log("test après promise est ", test);
-      if (test) {
-        setTimeout(() => {
 
-          that.clickCase(idNextMove);
-        }, 1000);
-      } else {
-        console.log("nouvel essai");
-        
-        that.playTurn();
+    console.log("test est ", this.testTwoSides(idNextMove));
+    if (this.testTwoSides(idNextMove)) {
+      setTimeout(() => {
+        this.clickCase(idNextMove);
+      }, 1000);
+    } else {
+      console.log("nouvel essai");
+      this.playTurn();
+    }
+  }
+
+/**
+ * checkAllTwoSides
+ */
+public checkAllTwoSides(): boolean {
+  let test: boolean = false;
+  this.squares.forEach(square => {
+    if (square.ctChecked < 2) {
+      test = true;
+    }
+  });
+  return test;
+}
+
+  /**
+   * checkThreeSides
+   */
+  public checkThreeSides(): number {
+    let idSide: number = null;
+    this.squares.forEach(square => {
+      if (square.ctChecked == 3) {
+
+        console.log("un carré a 3 côté cochés");
+        idSide = square.returnUncheck();
+
       }
-
     });
-
-
-
+    return idSide;
   }
 
   /**
