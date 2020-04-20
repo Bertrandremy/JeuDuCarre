@@ -19,6 +19,7 @@ export class GamePage implements OnInit {
   public player2Score: number;
   public playerTurn: boolean;
   public possibleMoves: number[];
+  public niceMovesPhaseOne: number[];
 
   constructor(private gameService: GameService) {
   }
@@ -34,6 +35,7 @@ export class GamePage implements OnInit {
     this.squares = this.gameService.loadSquare(4);
     this.playerTurn = true;
     this.possibleMoves = this.gameService.loadMoves(4);
+    this.niceMovesPhaseOne = new Array;
     this.newTurn();
   }
 
@@ -59,25 +61,50 @@ export class GamePage implements OnInit {
     if (testThreeSides != null) {
       this.clickCase(testThreeSides);
     } else {
-      if (this.checkAllTwoSides() == false) {
-        console.log("this.checkAllTwoSides", this.checkAllTwoSides());
+      // this.testEndPhaseOne();
+      if (this.testEndPhaseOne()) {
         console.log("random move");
-
         this.randomMove();
       } else {
-
         this.playMidDifficulty();
       }
     }
   }
 
   /**
+   * testEndPhaseOne
+   */
+  public testEndPhaseOne(): boolean {
+    this.niceMovesPhaseOne.length = 0;
+    console.log("Nouveau this.niceMovesPhaseOne ", this.niceMovesPhaseOne);
+
+    let test: boolean = true;
+    this.possibleMoves.forEach(move => {
+      console.log("Test de la case ", move, " ", this.testTwoSides(move));
+      if (this.testTwoSides(move)) {
+        console.log("Ajout de ", move);
+        
+        this.niceMovesPhaseOne.push(move)
+        console.log("Il y a un coup possible coup possible");
+        test = false;
+      }
+    });
+    console.log("testEndPhaseOne renvoit ", test);
+
+    return test;
+  }
+
+  /**
    * playMidleDifficulty
    */
   public playMidDifficulty() {
+    console.log("Coups intelligent possible ", this.niceMovesPhaseOne);
+
     let idNextMove = this.possibleMoves[Math.floor(Math.random() * this.possibleMoves.length)];
     console.log("L'IA pense à  ", idNextMove);
     console.log("Carrés qui contiennent cette case", this.findSquaresByCase(idNextMove));
+
+
 
     console.log("test est ", this.testTwoSides(idNextMove));
     if (this.testTwoSides(idNextMove)) {
@@ -94,23 +121,12 @@ export class GamePage implements OnInit {
    * randomMove
    */
   public randomMove(): void {
+    console.log("Dans la fonction randomMove ", this.possibleMoves);
+
     let idNextMove = this.possibleMoves[Math.floor(Math.random() * this.possibleMoves.length)];
     setTimeout(() => {
       this.clickCase(idNextMove);
     }, 1000);
-  }
-
-  /**
-   * checkAllTwoSides
-   */
-  public checkAllTwoSides(): boolean {
-    let test: boolean = false;
-    this.squares.forEach(square => {
-      if (square.ctChecked < 2) {
-        test = true;
-      }
-    });
-    return test;
   }
 
   /**
@@ -120,8 +136,6 @@ export class GamePage implements OnInit {
     let idSide: number = null;
     this.squares.forEach(square => {
       if (square.ctChecked == 3) {
-
-        console.log("un carré a 3 côté cochés");
         idSide = square.returnUncheck();
 
       }
@@ -135,9 +149,7 @@ export class GamePage implements OnInit {
   public testTwoSides(idNextMove: number): boolean {
     let test: boolean = true;
     this.findSquaresByCase(idNextMove).forEach(squareToTest => {
-      console.log("Carré testé ", squareToTest);
       if (squareToTest.ctChecked == 2) {
-        console.log("Un carré à déjà 2 côtés cochés");
         test = false;
       }
     });
@@ -145,7 +157,6 @@ export class GamePage implements OnInit {
   }
 
   clickCase(idCase: number): void {
-    console.log("Case cliquée ", idCase);
     let winTurn = false;
     this.squares.forEach(square => {
       if (this.checkCase(idCase, square)) {
