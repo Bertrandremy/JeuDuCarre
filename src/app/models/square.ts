@@ -1,11 +1,5 @@
 export class Square {
 
-    public id: string;
-    public top: number;
-    public right: number;
-    public left: number;
-    public down: number;
-    public line: number;
     public topChecked: boolean;
     public rightChecked: boolean;
     public leftChecked: boolean;
@@ -14,20 +8,14 @@ export class Square {
     public winningPlayer: number;
 
     constructor(
-        id: string,
-        top: number,
-        right: number,
-        down: number,
-        left: number,
-        line: number,
+        public id: string,
+        public top: number,
+        public right: number,
+        public down: number,
+        public left: number,
+        public line: number,
 
     ) {
-        this.id = id;
-        this.top = top;
-        this.right = right;
-        this.left = left;
-        this.down = down;
-        this.line = line;
         this.topChecked = false;
         this.rightChecked = false;
         this.leftChecked = false;

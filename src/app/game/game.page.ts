@@ -1,8 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Square } from "../models/square";
 import { GameService } from '../services/game.service';
-
+import { Square } from "../models/square";
+import { Player } from "../models/player";
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-game',
@@ -15,58 +17,70 @@ export class GamePage implements OnInit {
   public squares: Array<Square>
   public player1: string;
   public player2: string;
-  public player1Score: number;
-  public player2Score: number;
   public playerTurn: boolean;
   public possibleMoves: number[];
   public niceMovesPhaseOne: number[];
+  public paramGame: number[];
+  public playerOne: Player;
+  public playerTwo: Player;
 
-  constructor(private gameService: GameService) {
+  constructor(private _router: Router, private _gameService: GameService, private _data: DataService) {
+
+    this._router = _router;
   }
 
   ngOnInit() {
     console.log("*****************************");
     console.log("*** Création de la partie ***");
     console.log("*****************************");
-    this.player1 = "Joueur 1"
-    this.player2 = "IA facile";
-    this.player1Score = 0;
-    this.player2Score = 0;
-    this.squares = this.gameService.loadSquare(4);
+    this._data.currentParamGame.subscribe(paramGame => this.paramGame = paramGame);
+    this.createGame();
+    this.squares = this._gameService.loadSquare(4);
     this.playerTurn = true;
-    this.possibleMoves = this.gameService.loadMoves(4);
+    this.possibleMoves = this._gameService.loadMoves(4);
     this.niceMovesPhaseOne = new Array;
-    this.newTurn();
+    if (this.playerTurn) {
+      this.newTurn(this.playerOne);
+    } else {
+      this.newTurn(this.playerTwo);
+    }
+  }
+
+  /**
+   * createGame
+   */
+  public createGame() {
+    this.playerOne = this._gameService.createPlayer(this.paramGame[0]);
+    this.playerTwo = this._gameService.createPlayer(this.paramGame[1]);
   }
 
   /**
    * newTurn
    */
-  public newTurn() {
-    console.log("Nouveau tour");
-    console.log("coups possibles", this.possibleMoves);
-    if (this.playerTurn && this.player1 == "IA facile") {
-      this.playTurn();
-    }
-    if (!this.playerTurn && this.player2 == "IA facile") {
-      this.playTurn();
+  public newTurn(player: Player) {
+    console.log("nbr de coup faisable = ", this.possibleMoves.length);
+
+    if (player.type > 1 && this.possibleMoves.length > 0) {
+      this.playTurn(player);
     }
   }
 
   /**
    * playTurn
    */
-  public playTurn() {
+  public playTurn(player: Player) {
     let testThreeSides: number = this.checkThreeSides();
     if (testThreeSides != null) {
       this.clickCase(testThreeSides);
     } else {
-      // this.testEndPhaseOne();
       if (this.testEndPhaseOne()) {
-        console.log("random move");
         this.randomMove();
       } else {
-        this.playMidDifficulty();
+        if (player.type > 2) {
+          this.playMidDifficulty();
+        } else {
+          this.randomMove();
+        }
       }
     }
   }
@@ -76,21 +90,13 @@ export class GamePage implements OnInit {
    */
   public testEndPhaseOne(): boolean {
     this.niceMovesPhaseOne.length = 0;
-    console.log("Nouveau this.niceMovesPhaseOne ", this.niceMovesPhaseOne);
-
     let test: boolean = true;
     this.possibleMoves.forEach(move => {
-      console.log("Test de la case ", move, " ", this.testTwoSides(move));
       if (this.testTwoSides(move)) {
-        console.log("Ajout de ", move);
-        
         this.niceMovesPhaseOne.push(move)
-        console.log("Il y a un coup possible coup possible");
         test = false;
       }
     });
-    console.log("testEndPhaseOne renvoit ", test);
-
     return test;
   }
 
@@ -98,31 +104,16 @@ export class GamePage implements OnInit {
    * playMidleDifficulty
    */
   public playMidDifficulty() {
-    console.log("Coups intelligent possible ", this.niceMovesPhaseOne);
-
-    let idNextMove = this.possibleMoves[Math.floor(Math.random() * this.possibleMoves.length)];
-    console.log("L'IA pense à  ", idNextMove);
-    console.log("Carrés qui contiennent cette case", this.findSquaresByCase(idNextMove));
-
-
-
-    console.log("test est ", this.testTwoSides(idNextMove));
-    if (this.testTwoSides(idNextMove)) {
-      setTimeout(() => {
-        this.clickCase(idNextMove);
-      }, 1000);
-    } else {
-      console.log("nouvel essai");
-      this.playTurn();
-    }
+    let idNextMove = this.niceMovesPhaseOne[Math.floor(Math.random() * this.niceMovesPhaseOne.length)];
+    setTimeout(() => {
+      this.clickCase(idNextMove);
+    }, 1000);
   }
 
   /**
    * randomMove
    */
   public randomMove(): void {
-    console.log("Dans la fonction randomMove ", this.possibleMoves);
-
     let idNextMove = this.possibleMoves[Math.floor(Math.random() * this.possibleMoves.length)];
     setTimeout(() => {
       this.clickCase(idNextMove);
@@ -137,7 +128,6 @@ export class GamePage implements OnInit {
     this.squares.forEach(square => {
       if (square.ctChecked == 3) {
         idSide = square.returnUncheck();
-
       }
     });
     return idSide;
@@ -168,7 +158,11 @@ export class GamePage implements OnInit {
     }
     // let pos = this.possibleMoves.indexOf(idCase);
     this.possibleMoves.splice(this.possibleMoves.indexOf(idCase), 1);
-    this.newTurn();
+    if (this.playerTurn) {
+      this.newTurn(this.playerOne);
+    } else {
+      this.newTurn(this.playerTwo);
+    }
   }
 
   /**
@@ -221,14 +215,22 @@ export class GamePage implements OnInit {
     }
     if (square.ctChecked == 4) {
       if (this.playerTurn) {
-        this.player1Score++;
+        this.playerOne.score++;
         square.winningPlayer = 1;
       } else {
-        this.player2Score++;
+        this.playerTwo.score++;
         square.winningPlayer = 2;
       }
       return true;
     }
+  }
+
+  /**
+   * clickBackHome
+   */
+  public clickBackHome() {
+    this._router.navigate(['home']);
+
   }
 
 }

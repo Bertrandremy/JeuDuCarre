@@ -6,37 +6,83 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Jeu des pitis carrés</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header collapse="condense">
+  <ion-toolbar>
+    <ion-title size="large">Jeu des pitis carrés</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
   <div id="container">
-    <strong>Créer une partie</strong>
-    <p>Séléctionner les paramètres de la partie</p>
+    <div class="banner-home">
 
-    <div class="select-player">
-      <div class="player-one">
-        <div> Joueur 1</div>
-        <!-- <label id="example-radio-group-label">Pick your favorite season</label>
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group"
-          [(ngModel)]="favoriteSeason">
-          <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
-            {{season}}
-          </mat-radio-button>
-        </mat-radio-group>
-        <div>Your favorite season is: {{favoriteSeason}}</div> -->
-      </div>
-
-      <mat-radio-group name="gender" [(ngModel)]="gender"> </mat-radio-group>
-      <div class="player-two">
-        <div> Joueur 2 </div>
-      </div>
+      <strong>Créer une partie</strong>
+      <p>Sélectionner les paramètres de la partie</p>
     </div>
+    <form [formGroup]="playersForm" (submit)=createGame()>
+      <div class="select-player">
+        <!-- Joueur 1 -->
+        <div class="player-one">
+          <div class="title"> Joueur 1</div>
+          <div class="radio-button">
+            <input type="radio" value="1" [(ngModel)]="playerOneByDefault" class="form-control"
+              formControlName="playerOne" id="1">Joueur Humain
+          </div>
+          <div class="radio-button">
+            <input type="radio" value="2" [(ngModel)]="playerOneByDefault" class="form-control"
+              formControlName="playerOne" id="2">IA Facile
+          </div>
+          <div class="radio-button">
+            <input type="radio" value="3" [(ngModel)]="playerOneByDefault" class="form-control"
+              formControlName="playerOne" id="2">IA Moyenne
 
+          </div>
+          <div class="radio-button">
+            <input type="radio" value="4" [(ngModel)]="playerOneByDefault" class="form-control"
+              formControlName="playerOne" id="2">IA Difficile
+          </div>
+        </div>
+        <!-- joueur 2 -->
+        <div class="player-two">
+          <div class="title"> Joueur 2</div>
+          <div class="radio-button">
+            <input type="radio" value="1" [(ngModel)]="playerTwoByDefault" class="form-control"
+              formControlName="playerTwo" id="1">Joueur Humain
+          </div>
+          <div class="radio-button">
+            <input type="radio" value="2" [(ngModel)]="playerTwoByDefault" class="form-control"
+              formControlName="playerTwo" id="2">IA Facile
+          </div>
+          <div class="radio-button">
+            <input type="radio" value="3" [(ngModel)]="playerTwoByDefault" class="form-control"
+              formControlName="playerTwo" id="2">IA Moyenne
+
+          </div>
+          <div class="radio-button">
+            <input type="radio" value="4" [(ngModel)]="playerTwoByDefault" class="form-control"
+              formControlName="playerTwo" id="2">IA Difficile
+          </div>
+        </div>
+
+      </div>
+      <!-- Nombre de case -->
+      <div class="number-cases">
+        <div class="title"> Nombre de cases de la grille</div>
+        <div class="radio-button">
+          <input type="radio" value="4" [(ngModel)]="numberCasesDefault" class="form-control"
+            formControlName="numberCases" id="1">4 x 4
+        </div>
+        <div class="radio-button">
+          <input type="radio" value="5" [(ngModel)]="numberCasesDefault" class="form-control"
+            formControlName="numberCases" id="2">5 x 5
+        </div>
+        <div class="radio-button">
+          <input type="radio" value="6" [(ngModel)]="numberCasesDefault" class="form-control"
+            formControlName="numberCases" id="2">6 x 6
+        </div>
+      </div>
+
+      <button class="btn-create" type="submit">Lancer La Partie</button>
+    </form>
   </div>
 </ion-content>
