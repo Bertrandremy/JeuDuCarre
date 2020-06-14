@@ -29,27 +29,47 @@ export class GameService {
     squares.push(new Square("N", 27, 35, 36, 33, 4));
     squares.push(new Square("O", 29, 37, 38, 35, 4));
     squares.push(new Square("P", 31, 39, 40, 37, 4));
-    if (nPerSide == 5) {
+    if (nPerSide > 4) {
+      squares.push(new Square("Y", 41, 42, 43, 12, 1));
+      squares.push(new Square("X", 43, 44, 45, 21, 2));
+      squares.push(new Square("W", 45, 46, 47, 30, 3));
+      squares.push(new Square("V", 47, 48, 49, 39, 4));
+      squares.push(new Square("Q", 34, 58, 59, 60, 5));
+      squares.push(new Square("R", 36, 56, 57, 58, 5));
+      squares.push(new Square("S", 38, 54, 55, 56, 5));
+      squares.push(new Square("T", 40, 52, 53, 54, 5));
+      squares.push(new Square("U", 49, 50, 51, 52, 5));
+    }
+    if (nPerSide > 5) {
+      squares.push(new Square("Z", 59, 63, 62, 61, 6));
+      squares.push(new Square("AA", 57, 65, 64, 63, 6));
+      squares.push(new Square("AB", 55, 67, 66, 65, 6));
+      squares.push(new Square("AC", 53, 69, 68, 67, 6));
+      squares.push(new Square("AD", 51, 71, 70, 69, 6));
+      squares.push(new Square("AE", 74, 73, 72, 71, 6));
+      squares.push(new Square("AF", 76, 75, 74, 50, 5));
+      squares.push(new Square("AG", 78, 77, 76, 48, 4));
+      squares.push(new Square("AH", 80, 79, 78, 46, 3));
+      squares.push(new Square("AI", 82, 81, 80, 44, 2));
+      squares.push(new Square("AJ", 84, 83, 82, 42, 1));
+
     }
     return squares;
   }
 
   public loadMoves(nPerSide: number): number[] {
     let listPossibleMoves: number[];
-    switch (nPerSide) {
-      case 4:
-        listPossibleMoves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
-        break;
-      case 5:
-        listPossibleMoves.push(41, 42, 43, 44, 45)
-        break;
-      default:
-        break;
+    listPossibleMoves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+    if (nPerSide > 4) {
+      listPossibleMoves.push(41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60);
+    }
+    if (nPerSide > 5) {
+      listPossibleMoves.push(61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84);
     }
     return listPossibleMoves;
   }
 
-  
+
   /**
    * createPlayer
    */
@@ -73,7 +93,7 @@ export class GameService {
         break;
     }
     console.log("Player créé", newPlayer);
-    
+
     return newPlayer;
   }
 

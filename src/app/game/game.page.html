@@ -92,6 +92,18 @@
         </div>
       </div>
 
+      <div class="gridgame">
+        <div class="square" *ngFor="let square of squares | filterCol:6; first as isFirst">
+          <div *ngIf="isFirst" id="{{square.left}}" class="btn-left case-unchecked" (click)=clickCase(square.left)
+            [ngClass]="{'case-checked':square.leftChecked}"></div>
+          <span *ngIf="square.winningPlayer == 1" class="content-square circle">O</span>
+          <span *ngIf="square.winningPlayer == 2" class="content-square cross">X</span>
+          <div class="btn-right case-unchecked" id="{{square.right}}" (click)=clickCase(square.right)
+            [ngClass]="{'case-checked':square.rightChecked}"></div>
+          <div class="btn-down case-unchecked" id="{{square.down}}" (click)=clickCase(square.down)
+            [ngClass]="{'case-checked':square.downChecked}"></div>
+        </div>
+      </div>
     </div>
 
   </div>

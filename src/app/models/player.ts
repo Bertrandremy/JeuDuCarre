@@ -3,4 +3,5 @@ export class Player {
     constructor(public name: string, public type: number) {
         this.score = 0;
     }
+
 }

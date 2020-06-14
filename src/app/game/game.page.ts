@@ -35,10 +35,6 @@ export class GamePage implements OnInit {
     console.log("*****************************");
     this._data.currentParamGame.subscribe(paramGame => this.paramGame = paramGame);
     this.createGame();
-    this.squares = this._gameService.loadSquare(4);
-    this.playerTurn = true;
-    this.possibleMoves = this._gameService.loadMoves(4);
-    this.niceMovesPhaseOne = new Array;
     if (this.playerTurn) {
       this.newTurn(this.playerOne);
     } else {
@@ -52,14 +48,21 @@ export class GamePage implements OnInit {
   public createGame() {
     this.playerOne = this._gameService.createPlayer(this.paramGame[0]);
     this.playerTwo = this._gameService.createPlayer(this.paramGame[1]);
+    this.squares = this._gameService.loadSquare(this.paramGame[2]);
+    this.possibleMoves = this._gameService.loadMoves(this.paramGame[2]);
+    console.log("this.squares", this.squares);
+    console.log("this.possibleMoves", this.possibleMoves);
+
+
+    this.playerTurn = true;
+    this.niceMovesPhaseOne = new Array;
+    this.testHardDiff();
   }
 
   /**
    * newTurn
    */
   public newTurn(player: Player) {
-    console.log("nbr de coup faisable = ", this.possibleMoves.length);
-
     if (player.type > 1 && this.possibleMoves.length > 0) {
       this.playTurn(player);
     }
@@ -69,20 +72,61 @@ export class GamePage implements OnInit {
    * playTurn
    */
   public playTurn(player: Player) {
-    let testThreeSides: number = this.checkThreeSides();
+    let testThreeSides: number = this.checkThreeSides(this.squares);
     if (testThreeSides != null) {
       this.clickCase(testThreeSides);
     } else {
-      if (this.testEndPhaseOne()) {
+      if (player.type == 2) {
         this.randomMove();
-      } else {
-        if (player.type > 2) {
-          this.playMidDifficulty();
-        } else {
+      }
+      if (player.type == 3) {
+        if (this.testEndPhaseOne()) {
           this.randomMove();
+        } else {
+          this.playMidDifficulty();
+        }
+      }
+      if (player.type == 4) {
+        if (this.testEndPhaseOne()) {
+          this.playHardDifficulty();
+        } else {
+          // this.playMidDifficulty();
         }
       }
     }
+  }
+
+  playHardDifficulty() {
+    console.log("playHardDifficulty");
+
+    let simulationSquares: Square[];
+    this.possibleMoves.forEach(move => {
+      simulationSquares = JSON.parse(JSON.stringify(this.squares));
+      // simulationSquares = { ...this.squares };
+      console.log("****** Test de ", move);
+      console.log(simulationSquares);
+      console.log("longueur de simulationSquares ", simulationSquares);
+
+      for (let index = 0; index < simulationSquares.length; index++) {
+        console.log("Dans la boucle");
+
+        let square = simulationSquares[index];
+        this.checkCase(move, square, true);
+
+        let SquareDone = this.checkCase(move, square, true);
+        if (SquareDone !== null) {
+          console.log("Le carré fait est ", SquareDone);
+
+        }
+      }
+      console.log("après simulation du coup");
+      console.log(simulationSquares);
+
+      console.log("case à cocher pour finir un carré ==", this.checkThreeSides(simulationSquares));
+      // Fonction retourne case pas coché de celui à 3 côté
+      // Cocher cette casse et recommencer checkThreeSides
+    });
+
   }
 
   /**
@@ -91,6 +135,8 @@ export class GamePage implements OnInit {
   public testEndPhaseOne(): boolean {
     this.niceMovesPhaseOne.length = 0;
     let test: boolean = true;
+    console.log("this.possibleMoves", this.possibleMoves);
+
     this.possibleMoves.forEach(move => {
       if (this.testTwoSides(move)) {
         this.niceMovesPhaseOne.push(move)
@@ -123,14 +169,36 @@ export class GamePage implements OnInit {
   /**
    * checkThreeSides
    */
-  public checkThreeSides(): number {
+  public checkThreeSides(squares: Square[]): number {
     let idSide: number = null;
-    this.squares.forEach(square => {
+    for (let index = 0; index < squares.length; index++) {
+      let square = squares[index];
       if (square.ctChecked == 3) {
-        idSide = square.returnUncheck();
+        idSide = this.returnUncheck(square);
       }
-    });
+    }
+    // squares.forEach(square => {
+
+    // });
     return idSide;
+  }
+
+  /**
+   * returnUncheck
+   */
+  public returnUncheck(square): number {
+    switch (false) {
+      case square.topChecked:
+        return square.top
+      case square.rightChecked:
+        return square.right
+      case square.leftChecked:
+        return square.left
+      case square.downChecked:
+        return square.down
+      default:
+        return null;
+    }
   }
 
   /**
@@ -149,7 +217,7 @@ export class GamePage implements OnInit {
   clickCase(idCase: number): void {
     let winTurn = false;
     this.squares.forEach(square => {
-      if (this.checkCase(idCase, square)) {
+      if (this.checkCase(idCase, square, false) !== null) {
         winTurn = true;
       }
     });
@@ -192,7 +260,7 @@ export class GamePage implements OnInit {
   /**
  * checkCase
 //  */
-  public checkCase(id: number, square: Square): boolean {
+  public checkCase(id: number, square: Square, simulation: boolean): string {
     switch (id) {
       case square.top:
         square.topChecked = true;
@@ -211,17 +279,24 @@ export class GamePage implements OnInit {
         square.ctChecked++;
         break;
       default:
-        return false;
+        break;
     }
     if (square.ctChecked == 4) {
-      if (this.playerTurn) {
-        this.playerOne.score++;
-        square.winningPlayer = 1;
-      } else {
-        this.playerTwo.score++;
-        square.winningPlayer = 2;
+      if (!simulation) {
+        if (this.playerTurn) {
+          this.playerOne.score++;
+          square.winningPlayer = 1;
+        } else {
+          this.playerTwo.score++;
+          square.winningPlayer = 2;
+        }
       }
-      return true;
+      console.log("square testé dans checkcase ", square);
+
+      square.ctChecked = 0;
+      return square.id;
+    } else {
+      return null;
     }
   }
 
@@ -231,6 +306,29 @@ export class GamePage implements OnInit {
   public clickBackHome() {
     this._router.navigate(['home']);
 
+  }
+
+  /**
+   * testHardDiff
+   */
+  public testHardDiff() {
+    this.clickCase(1);
+    this.clickCase(3);
+    this.clickCase(15);
+    this.clickCase(16);
+    this.clickCase(6);
+    this.clickCase(17);
+    this.clickCase(26);
+    this.clickCase(35);
+    this.clickCase(27);
+    this.clickCase(25);
+    this.clickCase(32);
+    this.clickCase(10);
+    this.clickCase(11);
+    this.clickCase(12);
+    this.clickCase(28);
+    this.clickCase(31);
+    this.clickCase(37);
   }
 
 }
