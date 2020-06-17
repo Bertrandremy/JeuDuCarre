@@ -1,10 +1,11 @@
 
 import { Component, OnInit } from '@angular/core';
-import { GameService } from '../services/game.service';
 import { Square } from "../models/square";
 import { Player } from "../models/player";
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { GameService } from '../services/game.service';
+import { SquareService } from '../services/square.service';
 
 @Component({
   selector: 'app-game',
@@ -24,7 +25,7 @@ export class GamePage implements OnInit {
   public playerOne: Player;
   public playerTwo: Player;
 
-  constructor(private _router: Router, private _gameService: GameService, private _data: DataService) {
+  constructor(private _router: Router, private _gameService: GameService, private _dataService: DataService, private _squareService: SquareService) {
 
     this._router = _router;
   }
@@ -33,7 +34,7 @@ export class GamePage implements OnInit {
     console.log("*****************************");
     console.log("*** Création de la partie ***");
     console.log("*****************************");
-    this._data.currentParamGame.subscribe(paramGame => this.paramGame = paramGame);
+    this._dataService.currentParamGame.subscribe(paramGame => this.paramGame = paramGame);
     this.createGame();
     if (this.playerTurn) {
       this.newTurn(this.playerOne);
@@ -96,38 +97,64 @@ export class GamePage implements OnInit {
     }
   }
 
-  playHardDifficulty() {
+  public playHardDifficulty() {
     console.log("playHardDifficulty");
 
     let simulationSquares: Square[];
+    // Boucle sur chaque coup possible
     this.possibleMoves.forEach(move => {
-      simulationSquares = JSON.parse(JSON.stringify(this.squares));
-      // simulationSquares = { ...this.squares };
       console.log("****** Test de ", move);
-      console.log(simulationSquares);
-      console.log("longueur de simulationSquares ", simulationSquares);
+      simulationSquares = JSON.parse(JSON.stringify(this.squares));
+      let pointScored = 0;
+      pointScored = this.countPointsGoingToBeEarn(move, simulationSquares, pointScored);
+      // console.log("Après la simulation, il faut cocher les cases ", this.checkThreeSides(simulationSquares));
+      // On vérifie si après avoir validé le/les premiers carrés, il iy en a d autres
 
-      for (let index = 0; index < simulationSquares.length; index++) {
-        console.log("Dans la boucle");
 
-        let square = simulationSquares[index];
-        this.checkCase(move, square, true);
+      while (this.checkThreeSides(simulationSquares)) {
+        console.log("Il y a un carré à faire, on relance donc la fonction recursive");
+        let newCaseToTest = this.checkThreeSides(simulationSquares);
+        console.log("Il faut tester avec la case ", newCaseToTest);
 
-        let SquareDone = this.checkCase(move, square, true);
-        if (SquareDone !== null) {
-          console.log("Le carré fait est ", SquareDone);
+        pointScored = this.countPointsGoingToBeEarn(newCaseToTest, simulationSquares, pointScored);
+        if (this.checkThreeSides(simulationSquares)) {
+          console.log("Après la deuxième boucle de la fonction, il reste la case ", this.checkThreeSides(simulationSquares), " a cocher");
 
         }
+
       }
-      console.log("après simulation du coup");
-      console.log(simulationSquares);
 
-      console.log("case à cocher pour finir un carré ==", this.checkThreeSides(simulationSquares));
-      // Fonction retourne case pas coché de celui à 3 côté
-      // Cocher cette casse et recommencer checkThreeSides
+      console.log("++++++ Le move ", move, " permet de marquer ", pointScored, " points");
+
     });
-
   }
+
+  /**
+   * Count the squares that are going to be made
+   */
+  public countPointsGoingToBeEarn(move: number, simulationSquares: Square[], pointScored: number): number {
+    let pointToReturn = pointScored;
+    let pointScoreChanged = false;
+
+    // On boucle sur tous les carré pour tester un checkCase
+    for (let index = 0; index < simulationSquares.length; index++) {
+
+      let square = simulationSquares[index];
+      this.checkCase(move, square, true);
+      let SquareDone = this.checkCase(move, square, true);
+      if (SquareDone !== null) {
+        console.log("Le carré fait est ", SquareDone);
+        console.log("case à cocher pour finir un carré ==", this.returnUncheck(this._squareService.findSquareById(SquareDone, simulationSquares)));
+        simulationSquares.forEach(square => {
+          this.checkCase(this.returnUncheck(this._squareService.findSquareById(SquareDone, simulationSquares)), square, true) !== null;
+        });
+        pointScoreChanged = true;
+        pointToReturn++;
+      }
+    }
+    return pointToReturn;
+  }
+
 
   /**
    * testEndPhaseOne
@@ -206,7 +233,7 @@ export class GamePage implements OnInit {
    */
   public testTwoSides(idNextMove: number): boolean {
     let test: boolean = true;
-    this.findSquaresByCase(idNextMove).forEach(squareToTest => {
+    this._squareService.findSquaresByCase(idNextMove, this.squares).forEach(squareToTest => {
       if (squareToTest.ctChecked == 2) {
         test = false;
       }
@@ -233,29 +260,8 @@ export class GamePage implements OnInit {
     }
   }
 
-  /**
-   * findSquaresByCase
-   */
-  public findSquaresByCase(idCase: number): Square[] {
-    let squaresToReturn: Array<Square> = new Array;
-    this.squares.forEach(square => {
-      switch (idCase) {
-        case square.top:
-          squaresToReturn.push(square);
-          break;
-        case square.right:
-          squaresToReturn.push(square);
-          break;
-        case square.down:
-          squaresToReturn.push(square);
-          break;
-        case square.left:
-          squaresToReturn.push(square);
-          break;
-      }
-    });
-    return squaresToReturn;
-  }
+
+
 
   /**
  * checkCase
@@ -291,7 +297,7 @@ export class GamePage implements OnInit {
           square.winningPlayer = 2;
         }
       }
-      console.log("square testé dans checkcase ", square);
+      // console.log("square testé dans checkcase ", square);
 
       square.ctChecked = 0;
       return square.id;
